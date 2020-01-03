@@ -11,8 +11,8 @@ module sc_cu (op, func, z, wmem, wreg, regrt, m2reg, aluc, shift,
    wire i_sub = r_type & func[5] & ~func[4] & ~func[3] &
                 ~func[2] &  func[1] & ~func[0];          //100010
 
-   wire i_gt = r_type & func[5] & ~func[4] & ~func[3] &
-                ~func[2] &  func[1] & func[0];          //100011
+   // wire i_gt = r_type & func[5] & ~func[4] & ~func[3] &
+   //              ~func[2] &  func[1] & func[0];          //100011
       
    
    wire i_and =  r_type & func[5] & ~func[4] & ~func[3] & func[2] & ~func[1] & ~func[0];  //100100
@@ -57,12 +57,18 @@ module sc_cu (op, func, z, wmem, wreg, regrt, m2reg, aluc, shift,
    assign pcsource[0] = ( i_beq & z ) | (i_bne & ~z) | i_j | i_jal ;
    
    // write registers
+   // assign wreg = i_add | i_sub | i_and | i_or   | i_xor  |
+   //               i_sll | i_srl | i_sra | i_addi | i_andi |
+   //               i_ori | i_xori | i_lw | i_lui  | i_jal | i_gt;
+
    assign wreg = i_add | i_sub | i_and | i_or   | i_xor  |
                  i_sll | i_srl | i_sra | i_addi | i_andi |
-                 i_ori | i_xori | i_lw | i_lui  | i_jal | i_gt;
+                 i_ori | i_xori | i_lw | i_lui  | i_jal;
    
-   assign aluc[3] = i_sra | i_gt;
-   assign aluc[2] = i_sub | i_or | i_srl | i_sra | i_ori | i_lui | i_beq | i_bne | i_gt;
+   assign aluc[3] = i_sra;
+   // assign aluc[3] = i_sra | i_gt;
+   assign aluc[2] = i_sub | i_or | i_srl | i_sra | i_ori | i_lui | i_beq | i_bne;
+   // assign aluc[2] = i_sub | i_or | i_srl | i_sra | i_ori | i_lui | i_beq | i_bne | i_gt;
    assign aluc[1] = i_xor | i_sll | i_srl | i_sra | i_xori | i_lui;
    assign aluc[0] = i_or | i_sll | i_srl | i_sra | i_ori | i_and | i_andi;
    assign shift   = i_sll | i_srl | i_sra ;
