@@ -1,0 +1,17 @@
+db/
+greybox_tmp/
+hc_output/
+incremental_db/
+output_files/
+simulation/
+source/
+*.qip
+*.bsf
+*.txt
+*.kpt
+*.tdf
+*.hdb
+*.qmsg
+*.rdb
+*.logdb
+*.hsd
